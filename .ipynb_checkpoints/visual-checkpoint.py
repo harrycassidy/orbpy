@@ -48,6 +48,8 @@ ax1[1].set_xticks([])
 ax1[1].set_ylabel('Meters per second')
 
 
+time_text = ax1[0].text(-0.005, -0.75, '', fontsize=12)
+
 def update_line(i, x,y ,line):
     ax1[0].patches = []
     x = x[i]
@@ -56,7 +58,8 @@ def update_line(i, x,y ,line):
     ax1[0].add_patch(circle)
     circle = plt.Circle(([x], [y]),size,color = 'w')
     l = ax1[0].add_patch(circle)
-    return l, 
+    time_text.set_text(round((i/300),2)*period)
+    return l, time_text,
 
 
 x = el[0]
@@ -73,8 +76,8 @@ line_ani = animation.FuncAnimation(fig, update_line, 300, fargs=(x,y, l), interv
 
 
 components.html(line_ani.to_jshtml(), height=1600)
-st.header("Primary Mass Calculation")
-with st.form("Primary Mass Calculation"):
+st.sidebar.header("Primary Mass Calculation")
+with st.sidebar.form("Primary Mass Calculation"):
     
     massP = 1*u.Msun
     massX= st.number_input('Mass of the Secondary(Mearth)')*u.Mearth
@@ -85,8 +88,8 @@ with st.form("Primary Mass Calculation"):
     if submitted:
         test = keplerCalc(MassP=massP, MassX=massX,period=period,eccentricity=ecc,distance=a)
         st.write("Primary Mass", test.calcMassP().to(u.Msun))
-st.header("Secondary Mass Calculation")
-with st.form("Secondary Mass Calculation"):
+st.sidebar.header("Secondary Mass Calculation")
+with st.sidebar.form("Secondary Mass Calculation"):
     
     massP = st.number_input('Mass of the Primary(Msun)')*u.Msun
     massX= 1*u.Mearth#st.number_input('Mass of the Secondary(Mearth)')*u.Mearth
@@ -98,8 +101,8 @@ with st.form("Secondary Mass Calculation"):
         test = keplerCalc(MassP=massP, MassX=massX,period=period,eccentricity=ecc,distance=a)
         st.write("Secondary Mass", test.calcMassX())
         
-st.header("Period Calculation")
-with st.form("Period Calculation"):
+st.sidebar.header("Period Calculation")
+with st.sidebar.form("Period Calculation"):
     
     massP = st.number_input('Mass of the Primary(Msun)')*u.Msun
     massX= st.number_input('Mass of the Secondary(Mearth)')*u.Mearth
@@ -111,8 +114,8 @@ with st.form("Period Calculation"):
         test = keplerCalc(MassP=massP, MassX=massX,period=period,eccentricity=ecc,distance=a)
         st.write("Period", test.calcperiod().to(u.year))
         
-st.header("Distance Calculation")
-with st.form("Distance Calculation"):
+st.sidebar.header("Distance Calculation")
+with st.sidebar.form("Distance Calculation"):
     
     massP = st.number_input('Mass of the Primary(Msun)')*u.Msun
     massX= st.number_input('Mass of the Secondary(Mearth)')*u.Mearth

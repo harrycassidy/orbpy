@@ -6,6 +6,21 @@ from astropy import constants as c
 from astropy import units as u
 
 class keplerCalc:
+    '''
+    This class is used to calculate orbital characteristics and make the ellipse equation.
+    
+    Parameters:
+        MassP = Mass of primary star in SOlMass
+        MassX = Mass of the planet in earthMass
+        period = orbital time in years
+        eccentricity 
+        distance = semi-major axis of the orbit in AU
+    returns:
+        Orbital parameters
+        Ellipse equation to be used by Visual.py
+    
+    
+    '''
     def __init__(self,MassP=1*u.Msun, MassX=1*u.Mearth,period=1*u.year,eccentricity=0.02,distance=1*u.au):
             self.MassP = MassP.to(u.kg)
             self.MassX = MassX.to(u.kg)
@@ -63,7 +78,7 @@ class keplerCalc:
 
 class RV:
     '''
-    units required
+    Determines the planets effect on the host star in m/s
     
     '''
     def __init__(self,massX,massP,period,ecc,distance):
@@ -76,6 +91,4 @@ class RV:
         K = (self.massX*2*np.pi*self.a)/(self.period*self.massP*2.1*(10**-4))
         self.amplitude = K
         return K*u.m/u.s
-    def sinusoid(self):
-        pass
     
